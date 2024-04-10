@@ -1,10 +1,16 @@
 package com.project;
 
+import com.project.common.util.Sysutil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectApplicationTests {
+class ProjectApplicationTest {
+    @Test
+    void idTest(){
+        System.out.println(Sysutil.iD());
+        System.out.println(Sysutil.uuid());
+    }
 
     @Test
     void contextLoads() {

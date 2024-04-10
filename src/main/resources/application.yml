@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 2048MB
+      max-request-size: 2048MB
+  main:
+    # spring横幅标语 off | console | log | 自定义
+    #banner-mode: log
+    # 使用文本
+    banner-mode:
+      #文本文件编码
+      charset: UTF-8
+      #文本资源路径
+      location:
+        classpath: banner.txt
+      # 使用图片
+      image:
+        #图片资源路径
+        location:
+          classpath: banner.gif
+        width: 76
+        height: 50
+        margin: 2
+        invert: false
+  mybatis-plus:
+    mapper-locations: classpath:mapper/*Mapper.xml
+# 日志
+logging:
+  # 日志级别
+  level:
+    com.project.mapper:  debug
