@@ -1,13 +1,12 @@
-package com.example.pe;
+package com.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PeApplication {
+public class Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(PeApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
-
 }

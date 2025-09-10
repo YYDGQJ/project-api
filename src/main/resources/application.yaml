@@ -1,9 +1,0 @@
-server:
-  application:
-    name: pm
-  port: ${APP_PORT:8080}
-#  datasource:
-#    driver-class-name: dm.jdbc.driver.mysql
-#    url: jdbc:dm://10.152.90.201:5236/PM
-#    username: PMAPP
-#    password: LGpmap@20250609
