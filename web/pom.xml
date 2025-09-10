@@ -19,6 +19,21 @@
             <artifactId>common</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>dictionary</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>manufacture</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>ai</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>
