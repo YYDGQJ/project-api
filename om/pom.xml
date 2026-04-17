@@ -9,12 +9,13 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>manufacture</artifactId>
-    <name>公共</name>
+    <artifactId>om</artifactId>
+    <name>合同管理</name>
+
     <dependencies>
         <dependency>
             <groupId>com.project</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>manufacture</artifactId>
         </dependency>
     </dependencies>
 
