@@ -34,7 +34,16 @@
             <artifactId>ai</artifactId>
             <version>${revision}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>user</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>om</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,2 +1,49 @@
+spring:
+  application:
+    name: api
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 server:
-  port: 80
+  port: ${APP_PORT}
+  servlet:
+    context-path: ${APP_PATH}
+mybatis-plus:
+  mapper-locations: classpath*:mybatis/*Repository.xml
+  global-config:
+    banner: on
+    # 全局配置
+    global-config:
+      db-config:
+        # 主键类型（AUTO: 数据库ID自增, INPUT: 用户输入ID, ASSIGN_ID: 雪花算法ID, ASSIGN_UUID: UUID）
+        id-type: ASSIGN_ID
+        # 逻辑删除配置
+        logic-delete-value: 1
+        logic-not-delete-value: 0
+    # 配置项
+    configuration:
+      # 日志输出
+      log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+      # 驼峰命名转换
+      map-underscore-to-camel-case: true
+      # 缓存配置
+      cache-enabled: true
+logging:
+  level:
+    springfox: WARN
+    org: DEBUG
+    io: INFO
+    com.zaxxer: DEBUG
+    com.baomidou: INFO
+    org.springframework.kafka: INFO
+    org.springframework.boot.autoconfigure: DEBUG
+    org.springframework.web.filter.CommonsRequestLoggingFilter: TRACE
+jasypt:
+  encryptor:
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+    algorithm: ${JASYPT_ALGORITHM}
+    property:
+      prefix: "ENC("
+      suffix: ")"
