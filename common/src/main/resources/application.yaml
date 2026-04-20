@@ -8,6 +8,7 @@ spring:
     password: ${DB_PASSWORD}
 server:
   port: ${APP_PORT}
+  address: 0.0.0.0
   servlet:
     context-path: ${APP_PATH}
 mybatis-plus:
@@ -47,3 +48,7 @@ jasypt:
     property:
       prefix: "ENC("
       suffix: ")"
+project:
+  page:
+    default-current: 1
+    default-size: 10

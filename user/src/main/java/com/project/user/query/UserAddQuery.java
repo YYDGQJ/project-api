@@ -14,6 +14,10 @@ public class UserAddQuery {
 
     private String userPhone;
 
+    private String dept;
+
+    private String position;
+
     private String passWord;
 
     /**
@@ -24,6 +28,6 @@ public class UserAddQuery {
     /**
      * 角色
      */
-    private Integer role;
+    private String role;
 }
 

@@ -16,6 +16,10 @@ public class UserUpdateQuery {
 
     private String userPhone;
 
+    private String dept;
+
+    private String position;
+
     private String passWord;
 
     /**
@@ -26,6 +30,6 @@ public class UserUpdateQuery {
     /**
      * 角色
      */
-    private Integer role;
+    private String role;
 }
 

@@ -1,12 +1,16 @@
 package com.project.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.ResultBean;
 import com.project.user.entity.Tuser;
 import com.project.user.query.LoginQuery;
 import com.project.user.query.UserAddQuery;
 import com.project.user.query.UserDeleteQuery;
+import com.project.user.query.UserQuery;
 import com.project.user.query.UserUpdateQuery;
+import com.project.user.vo.UserInfoVO;
 
 /**
  * UserService
@@ -25,5 +29,7 @@ public interface UserService  extends IService<Tuser> {
     ResultBean<?> updateUser(UserUpdateQuery query);
 
     ResultBean<?> deleteUser(UserDeleteQuery query);
+
+    IPage<UserInfoVO> query(Page<Tuser> page, UserQuery query);
 
 }

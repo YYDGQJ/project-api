@@ -44,6 +44,21 @@
             <artifactId>om</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>dapr</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>tableConfig</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.project</groupId>
+            <artifactId>menuConfig</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 
     <build>

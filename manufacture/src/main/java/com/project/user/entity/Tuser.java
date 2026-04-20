@@ -23,12 +23,16 @@ public class Tuser extends IdAuditingEntity {
     private String userName;
     @TableField("user_phone")
     private String userPhone;
+    @TableField("dept")
+    private String dept;
+    @TableField("position")
+    private String position;
     @TableField("user_pass_word")
     private String userPassWord;
     @TableField("status")
     private Integer status;
     @TableField("role")
-    private Integer role;
+    private String role;
     @TableField("error_number")
     private Integer errorNumber;
 }
