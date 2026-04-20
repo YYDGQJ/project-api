@@ -1,11 +1,16 @@
 package com.project.user.web;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.project.ResultBean;
+import com.project.user.entity.Tuser;
 import com.project.user.query.LoginQuery;
 import com.project.user.query.UserAddQuery;
 import com.project.user.query.UserDeleteQuery;
+import com.project.user.query.UserQuery;
 import com.project.user.query.UserUpdateQuery;
 import com.project.user.service.UserService;
+import com.project.user.vo.UserInfoVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +68,16 @@ public class UserController {
         } catch (Exception e) {
             log.error("delete user failed", e);
             return ResultBean.error("系统异常");
+        }
+    }
+
+    @PostMapping("/query")
+    public IPage<UserInfoVO> query(Page<Tuser> page, @RequestBody(required = false) UserQuery query) {
+        try {
+            return userService.query(page, query);
+        } catch (Exception e) {
+            log.error("query user failed", e);
+            return null;
         }
     }
 

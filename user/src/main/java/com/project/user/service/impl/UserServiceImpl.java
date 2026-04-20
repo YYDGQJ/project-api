@@ -1,23 +1,29 @@
 package com.project.user.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.project.ResultBean;
 import com.project.user.entity.Tuser;
 import com.project.user.query.LoginQuery;
 import com.project.user.query.UserAddQuery;
 import com.project.user.query.UserDeleteQuery;
+import com.project.user.query.UserQuery;
 import com.project.user.query.UserUpdateQuery;
 import com.project.user.repository.TuserRepositroy;
 import com.project.user.service.UserService;
+import com.project.user.vo.UserInfoVO;
 import com.project.utils.BCryptUtil;
 import com.project.utils.MD5Util;
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
 import org.jasypt.util.password.StrongPasswordEncryptor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import jakarta.annotation.Resource;
+
 
 /**
  * UserServiceImpl
@@ -69,15 +75,16 @@ public class UserServiceImpl extends ServiceImpl<TuserRepositroy, Tuser> impleme
         }
 
         resetRetryCount(tuser);
-        resultBean.success("登录成功");
-        return resultBean;
+        UserInfoVO userInfoVO = new UserInfoVO();
+        BeanUtils.copyProperties(tuser, userInfoVO);
+        return ResultBean.ok(0, userInfoVO, "登录成功");
     }
 
     @Override
     public ResultBean<?> addUser(UserAddQuery query) {
         ResultBean<?> resultBean = new ResultBean<>();
         if (query == null || !StringUtils.hasText(query.getUserId()) || !StringUtils.hasText(query.getUserName())
-                || !StringUtils.hasText(query.getUserPhone()) || !StringUtils.hasText(query.getPassWord())) {
+                || !StringUtils.hasText(query.getUserPhone())) {
             return resultBean.error500("必填参数不能为空");
         }
 
@@ -90,9 +97,12 @@ public class UserServiceImpl extends ServiceImpl<TuserRepositroy, Tuser> impleme
         tuser.setUserId(query.getUserId().trim());
         tuser.setUserName(query.getUserName().trim());
         tuser.setUserPhone(query.getUserPhone().trim());
+        tuser.setDept(StringUtils.hasText(query.getDept()) ? query.getDept().trim() : null);
+        tuser.setPosition(StringUtils.hasText(query.getPosition()) ? query.getPosition().trim() : null);
         tuser.setUserPassWord(PASSWORD_ENCODER.encryptPassword(query.getPassWord()));
+        tuser.setUserPassWord("");
         tuser.setStatus(parseStatus(query.getStatus(), STATUS_ENABLED));
-        tuser.setRole(query.getRole());
+        tuser.setRole(query.getRole() == null ? null : query.getRole());
         tuser.setErrorNumber(0);
         tuserRepositroy.insert(tuser);
         return ResultBean.ok(0, tuser.getId(), "新增成功");
@@ -101,11 +111,11 @@ public class UserServiceImpl extends ServiceImpl<TuserRepositroy, Tuser> impleme
     @Override
     public ResultBean<?> updateUser(UserUpdateQuery query) {
         ResultBean<?> resultBean = new ResultBean<>();
-        if (query == null || query.getId() == null) {
-            return resultBean.error500("id不能为空");
-        }
 
-        Tuser oldUser = tuserRepositroy.selectById(query.getId());
+        Tuser oldUser = tuserRepositroy.selectOne(
+                new LambdaQueryWrapper<Tuser>()
+                        .eq(Tuser::getUserId, query.getUserId())
+        );
         if (oldUser == null) {
             return resultBean.error500("用户不存在");
         }
@@ -123,6 +133,12 @@ public class UserServiceImpl extends ServiceImpl<TuserRepositroy, Tuser> impleme
         }
         if (StringUtils.hasText(query.getUserPhone())) {
             oldUser.setUserPhone(query.getUserPhone().trim());
+        }
+        if (StringUtils.hasText(query.getDept())) {
+            oldUser.setDept(query.getDept().trim());
+        }
+        if (StringUtils.hasText(query.getPosition())) {
+            oldUser.setPosition(query.getPosition().trim());
         }
         if (StringUtils.hasText(query.getStatus())) {
             oldUser.setStatus(parseStatus(query.getStatus(), defaultStatus(oldUser.getStatus())));
@@ -150,6 +166,38 @@ public class UserServiceImpl extends ServiceImpl<TuserRepositroy, Tuser> impleme
             return resultBean.error500("用户不存在");
         }
         return resultBean.success("删除成功");
+    }
+
+
+    @Override
+    public IPage<UserInfoVO> query(Page<Tuser> page, UserQuery query) {
+        LambdaQueryWrapper<Tuser> lqw = new LambdaQueryWrapper<>();
+        if (query != null && StringUtils.hasText(query.getUserId())) {
+            lqw.like(Tuser::getUserId, query.getUserId().trim());
+        }
+        if (query != null && StringUtils.hasText(query.getUserName())) {
+            lqw.like(Tuser::getUserName, query.getUserName().trim());
+        }
+        if (query != null && StringUtils.hasText(query.getUserPhone())) {
+            lqw.like(Tuser::getUserPhone, query.getUserPhone().trim());
+        }
+        if (query != null && StringUtils.hasText(query.getDept())) {
+            lqw.like(Tuser::getDept, query.getDept().trim());
+        }
+        if (query != null && StringUtils.hasText(query.getPosition())) {
+            lqw.like(Tuser::getPosition, query.getPosition().trim());
+        }
+        if (query != null && StringUtils.hasText(query.getRole())) {
+            lqw.like(Tuser::getRole, query.getRole().trim());
+        }
+
+        IPage<Tuser> tuserPage =
+                tuserRepositroy.selectPage(page, lqw);
+        return tuserPage.convert(tuser -> {
+            UserInfoVO vo = new UserInfoVO();
+            BeanUtils.copyProperties(tuser, vo);
+            return vo;
+        });
     }
 
     private boolean checkPasswordWithCompatibility(String inputPassWord, Tuser tuser) {

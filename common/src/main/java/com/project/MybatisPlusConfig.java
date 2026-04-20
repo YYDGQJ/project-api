@@ -22,7 +22,7 @@ public class MybatisPlusConfig {
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.DM);
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.POSTGRE_SQL);
         //暂时设置成分页返回最多10000条，超过10000条不返回数据
         paginationInnerInterceptor.setMaxLimit(-1L);
         paginationInnerInterceptor.setOverflow(false);
